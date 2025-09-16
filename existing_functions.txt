@@ -1,0 +1,2 @@
+get_temperature_scale_name
+is_temperature_extreme

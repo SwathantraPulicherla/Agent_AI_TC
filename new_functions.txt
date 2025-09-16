@@ -1,0 +1,4 @@
+convert_between_scales
+get_temperature_category
+get_temperature_category_name
+get_temperature_warning_threshold

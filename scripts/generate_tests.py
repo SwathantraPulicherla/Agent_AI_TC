@@ -132,33 +132,251 @@ void test_{func}() {{
 '''
         run_tests = f'    RUN_TEST(test_{func});'
     elif func == 'get_temperature_scale_name':
-        test_names = [f'test_{func}']
+        test_names = [f'test_{func}_celsius', f'test_{func}_fahrenheit', f'test_{func}_kelvin', f'test_{func}_rankine', f'test_{func}_unknown']
         test_code = f'''
-void test_{func}() {{
-    // AI-generated test for {func}
+void test_{func}_celsius() {{
+    // AI-generated test for {func} - Celsius scale
     char* result = get_temperature_scale_name(0);
     TEST_ASSERT_EQUAL_STRING("Celsius", result);
 }}
+
+void test_{func}_fahrenheit() {{
+    // AI-generated test for {func} - Fahrenheit scale
+    char* result = get_temperature_scale_name(1);
+    TEST_ASSERT_EQUAL_STRING("Fahrenheit", result);
+}}
+
+void test_{func}_kelvin() {{
+    // AI-generated test for {func} - Kelvin scale
+    char* result = get_temperature_scale_name(2);
+    TEST_ASSERT_EQUAL_STRING("Kelvin", result);
+}}
+
+void test_{func}_rankine() {{
+    // AI-generated test for {func} - Rankine scale
+    char* result = get_temperature_scale_name(3);
+    TEST_ASSERT_EQUAL_STRING("Rankine", result);
+}}
+
+void test_{func}_unknown() {{
+    // AI-generated test for {func} - Unknown scale
+    char* result = get_temperature_scale_name(99);
+    TEST_ASSERT_EQUAL_STRING("Unknown", result);
+}}
 '''
-        run_tests = f'    RUN_TEST(test_{func});'
+        run_tests = f'''
+    RUN_TEST(test_{func}_celsius);
+    RUN_TEST(test_{func}_fahrenheit);
+    RUN_TEST(test_{func}_kelvin);
+    RUN_TEST(test_{func}_rankine);
+    RUN_TEST(test_{func}_unknown);
+'''
     elif func == 'is_temperature_extreme':
-        test_names = [f'test_{func}_normal', f'test_{func}_extreme']
+        test_names = [f'test_{func}_celsius_normal', f'test_{func}_celsius_extreme', f'test_{func}_fahrenheit_normal', f'test_{func}_fahrenheit_extreme', f'test_{func}_kelvin_normal', f'test_{func}_kelvin_extreme', f'test_{func}_invalid_scale']
         test_code = f'''
-void test_{func}_normal() {{
-    // AI-generated test for {func} - normal temperature
+void test_{func}_celsius_normal() {{
+    // AI-generated test for {func} - Celsius normal temperature
     int result = is_temperature_extreme(25.0, 0);
     TEST_ASSERT_EQUAL(0, result);  // Should not be extreme
 }}
 
-void test_{func}_extreme() {{
-    // AI-generated test for {func} - extreme temperature
+void test_{func}_celsius_extreme() {{
+    // AI-generated test for {func} - Celsius extreme temperature
     int result = is_temperature_extreme(60.0, 0);
     TEST_ASSERT_EQUAL(1, result);  // Should be extreme
 }}
+
+void test_{func}_fahrenheit_normal() {{
+    // AI-generated test for {func} - Fahrenheit normal temperature
+    int result = is_temperature_extreme(77.0, 1);
+    TEST_ASSERT_EQUAL(0, result);  // Should not be extreme
+}}
+
+void test_{func}_fahrenheit_extreme() {{
+    // AI-generated test for {func} - Fahrenheit extreme temperature
+    int result = is_temperature_extreme(140.0, 1);
+    TEST_ASSERT_EQUAL(1, result);  // Should be extreme
+}}
+
+void test_{func}_kelvin_normal() {{
+    // AI-generated test for {func} - Kelvin normal temperature
+    int result = is_temperature_extreme(298.0, 2);
+    TEST_ASSERT_EQUAL(0, result);  // Should not be extreme
+}}
+
+void test_{func}_kelvin_extreme() {{
+    // AI-generated test for {func} - Kelvin extreme temperature
+    int result = is_temperature_extreme(350.0, 2);
+    TEST_ASSERT_EQUAL(1, result);  // Should be extreme
+}}
+
+void test_{func}_invalid_scale() {{
+    // AI-generated test for {func} - Invalid scale
+    int result = is_temperature_extreme(25.0, 99);
+    TEST_ASSERT_EQUAL(0, result);  // Should return 0 for invalid scale
+}}
 '''
         run_tests = f'''
+    RUN_TEST(test_{func}_celsius_normal);
+    RUN_TEST(test_{func}_celsius_extreme);
+    RUN_TEST(test_{func}_fahrenheit_normal);
+    RUN_TEST(test_{func}_fahrenheit_extreme);
+    RUN_TEST(test_{func}_kelvin_normal);
+    RUN_TEST(test_{func}_kelvin_extreme);
+    RUN_TEST(test_{func}_invalid_scale);
+'''
+    elif func == 'convert_between_scales':
+        test_names = [f'test_{func}_celsius_to_fahrenheit', f'test_{func}_fahrenheit_to_celsius', f'test_{func}_celsius_to_kelvin', f'test_{func}_kelvin_to_rankine', f'test_{func}_invalid_scale']
+        test_code = f'''
+void test_{func}_celsius_to_fahrenheit() {{
+    // AI-generated test for {func} - Celsius to Fahrenheit
+    float result = convert_between_scales(25.0, 0, 1);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 77.0, result);
+}}
+
+void test_{func}_fahrenheit_to_celsius() {{
+    // AI-generated test for {func} - Fahrenheit to Celsius
+    float result = convert_between_scales(77.0, 1, 0);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 25.0, result);
+}}
+
+void test_{func}_celsius_to_kelvin() {{
+    // AI-generated test for {func} - Celsius to Kelvin
+    float result = convert_between_scales(25.0, 0, 2);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 298.15, result);
+}}
+
+void test_{func}_kelvin_to_rankine() {{
+    // AI-generated test for {func} - Kelvin to Rankine
+    float result = convert_between_scales(298.15, 2, 3);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 536.67, result);
+}}
+
+void test_{func}_invalid_scale() {{
+    // AI-generated test for {func} - Invalid scale
+    float result = convert_between_scales(25.0, 99, 0);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 0.0, result);  // Should return 0 for invalid scale
+}}
+'''
+        run_tests = f'''
+    RUN_TEST(test_{func}_celsius_to_fahrenheit);
+    RUN_TEST(test_{func}_fahrenheit_to_celsius);
+    RUN_TEST(test_{func}_celsius_to_kelvin);
+    RUN_TEST(test_{func}_kelvin_to_rankine);
+    RUN_TEST(test_{func}_invalid_scale);
+'''
+    elif func == 'get_temperature_category':
+        test_names = [f'test_{func}_cold', f'test_{func}_normal', f'test_{func}_warm', f'test_{func}_hot', f'test_{func}_invalid_scale']
+        test_code = f'''
+void test_{func}_cold() {{
+    // AI-generated test for {func} - Cold temperature
+    int result = get_temperature_category(-10.0, 0);
+    TEST_ASSERT_EQUAL(0, result);  // Should be Cold
+}}
+
+void test_{func}_normal() {{
+    // AI-generated test for {func} - Normal temperature
+    int result = get_temperature_category(15.0, 0);
+    TEST_ASSERT_EQUAL(1, result);  // Should be Normal
+}}
+
+void test_{func}_warm() {{
+    // AI-generated test for {func} - Warm temperature
+    int result = get_temperature_category(25.0, 0);
+    TEST_ASSERT_EQUAL(2, result);  // Should be Warm
+}}
+
+void test_{func}_hot() {{
+    // AI-generated test for {func} - Hot temperature
+    int result = get_temperature_category(35.0, 0);
+    TEST_ASSERT_EQUAL(3, result);  // Should be Hot
+}}
+
+void test_{func}_invalid_scale() {{
+    // AI-generated test for {func} - Invalid scale
+    int result = get_temperature_category(25.0, 99);
+    TEST_ASSERT_EQUAL(-1, result);  // Should return -1 for invalid scale
+}}
+'''
+        run_tests = f'''
+    RUN_TEST(test_{func}_cold);
     RUN_TEST(test_{func}_normal);
-    RUN_TEST(test_{func}_extreme);
+    RUN_TEST(test_{func}_warm);
+    RUN_TEST(test_{func}_hot);
+    RUN_TEST(test_{func}_invalid_scale);
+'''
+    elif func == 'get_temperature_category_name':
+        test_names = [f'test_{func}_cold', f'test_{func}_normal', f'test_{func}_warm', f'test_{func}_hot', f'test_{func}_unknown']
+        test_code = f'''
+void test_{func}_cold() {{
+    // AI-generated test for {func} - Cold category
+    char* result = get_temperature_category_name(0);
+    TEST_ASSERT_EQUAL_STRING("Cold", result);
+}}
+
+void test_{func}_normal() {{
+    // AI-generated test for {func} - Normal category
+    char* result = get_temperature_category_name(1);
+    TEST_ASSERT_EQUAL_STRING("Normal", result);
+}}
+
+void test_{func}_warm() {{
+    // AI-generated test for {func} - Warm category
+    char* result = get_temperature_category_name(2);
+    TEST_ASSERT_EQUAL_STRING("Warm", result);
+}}
+
+void test_{func}_hot() {{
+    // AI-generated test for {func} - Hot category
+    char* result = get_temperature_category_name(3);
+    TEST_ASSERT_EQUAL_STRING("Hot", result);
+}}
+
+void test_{func}_unknown() {{
+    // AI-generated test for {func} - Unknown category
+    char* result = get_temperature_category_name(99);
+    TEST_ASSERT_EQUAL_STRING("Unknown", result);
+}}
+'''
+        run_tests = f'''
+    RUN_TEST(test_{func}_cold);
+    RUN_TEST(test_{func}_normal);
+    RUN_TEST(test_{func}_warm);
+    RUN_TEST(test_{func}_hot);
+    RUN_TEST(test_{func}_unknown);
+'''
+    elif func == 'get_temperature_warning_threshold':
+        test_names = [f'test_{func}_freeze_celsius', f'test_{func}_heat_fahrenheit', f'test_{func}_extreme_cold_kelvin', f'test_{func}_extreme_heat_celsius']
+        test_code = f'''
+void test_{func}_freeze_celsius() {{
+    // AI-generated test for {func} - Freeze threshold Celsius
+    float result = get_temperature_warning_threshold(0, 0);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 0.0, result);
+}}
+
+void test_{func}_heat_fahrenheit() {{
+    // AI-generated test for {func} - Heat threshold Fahrenheit
+    float result = get_temperature_warning_threshold(1, 1);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 86.0, result);
+}}
+
+void test_{func}_extreme_cold_kelvin() {{
+    // AI-generated test for {func} - Extreme cold threshold Kelvin
+    float result = get_temperature_warning_threshold(2, 2);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 253.15, result);
+}}
+
+void test_{func}_extreme_heat_celsius() {{
+    // AI-generated test for {func} - Extreme heat threshold Celsius
+    float result = get_temperature_warning_threshold(0, 3);
+    TEST_ASSERT_FLOAT_WITHIN(0.01, 40.0, result);
+}}
+'''
+        run_tests = f'''
+    RUN_TEST(test_{func}_freeze_celsius);
+    RUN_TEST(test_{func}_heat_fahrenheit);
+    RUN_TEST(test_{func}_extreme_cold_kelvin);
+    RUN_TEST(test_{func}_extreme_heat_celsius);
 '''
     else:
         test_names = [f'test_{func}']
