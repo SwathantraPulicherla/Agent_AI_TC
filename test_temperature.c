@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "unity.h"
 #include "converter.h"
 #include "sensor.h"
