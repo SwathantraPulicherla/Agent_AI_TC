@@ -9,6 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
+        submodules: true
         fetch-depth: 2  # To compare with previous commit
 
     - name: Install dependencies
