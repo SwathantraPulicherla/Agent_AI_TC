@@ -1,0 +1,9 @@
+get_sensor_reading
+get_sensor_status
+calibrate_sensor
+validate_temperature
+convert_to_fahrenheit
+convert_to_kelvin
+convert_to_rankine
+get_temperature_scale_name
+is_temperature_extreme
