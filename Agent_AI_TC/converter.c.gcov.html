@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-09-16 19:02:27</td>
+            <td class="headerValue">2025-09-16 19:02:32</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -65,24 +65,24 @@
 <span id="L3"><span class="lineNum">       3</span>              : </span>
 <span id="L4"><span class="lineNum">       4</span>              : sensor_func_t sensor_func = get_sensor_reading;</span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           4 : float convert_to_fahrenheit() {</span></span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           4 :     int celsius = sensor_func();</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           4 :     return (celsius * 9.0 / 5.0) + 32.0;</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           8 : float convert_to_fahrenheit() {</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           8 :     int celsius = sensor_func();</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           8 :     return (celsius * 9.0 / 5.0) + 32.0;</span></span>
 <span id="L9"><span class="lineNum">       9</span>              : }</span>
 <span id="L10"><span class="lineNum">      10</span>              : </span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           1 : float convert_to_kelvin() {</span></span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           1 :     int celsius = sensor_func();</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :     return celsius + 273.15;</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           2 : float convert_to_kelvin() {</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           2 :     int celsius = sensor_func();</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           2 :     return celsius + 273.15;</span></span>
 <span id="L14"><span class="lineNum">      14</span>              : }</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 : float convert_to_rankine() {</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :     int celsius = sensor_func();</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :     return (celsius + 273.15) * 9.0 / 5.0;</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 : float convert_to_rankine() {</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           2 :     int celsius = sensor_func();</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           2 :     return (celsius + 273.15) * 9.0 / 5.0;</span></span>
 <span id="L19"><span class="lineNum">      19</span>              : }</span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 : char* get_temperature_scale_name(int scale) {</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :     switch (scale) {</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :         case 0: return &quot;Celsius&quot;;</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           2 : char* get_temperature_scale_name(int scale) {</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           2 :     switch (scale) {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           2 :         case 0: return &quot;Celsius&quot;;</span></span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC tlaBgUNC">           0 :         case 1: return &quot;Fahrenheit&quot;;</span></span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :         case 2: return &quot;Kelvin&quot;;</span></span>
 <span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :         case 3: return &quot;Rankine&quot;;</span></span>
@@ -90,10 +90,10 @@
 <span id="L28"><span class="lineNum">      28</span>              :     }</span>
 <span id="L29"><span class="lineNum">      29</span>              : }</span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">           2 : int is_temperature_extreme(float temp, int scale) {</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           2 :     switch (scale) {</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           2 :         case 0: // Celsius</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           2 :             return (temp &lt; -40 || temp &gt; 50) ? 1 : 0;</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">           4 : int is_temperature_extreme(float temp, int scale) {</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           4 :     switch (scale) {</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           4 :         case 0: // Celsius</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           4 :             return (temp &lt; -40 || temp &gt; 50) ? 1 : 0;</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC tlaBgUNC">           0 :         case 1: // Fahrenheit</span></span>
 <span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :             return (temp &lt; -40 || temp &gt; 122) ? 1 : 0;</span></span>
 <span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :         case 2: // Kelvin</span></span>
