@@ -1,0 +1,63 @@
+name: CI with Unit Tests and Coverage
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # To compare with previous commit
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc make lcov ctags python3
+
+    - name: Detect changed source files
+      id: changed-files
+      run: |
+        CHANGED_FILES=$(git diff --name-only HEAD~1 | grep '\.c$' | tr '\n' ' ')
+        echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+
+    - name: Extract functions from changed files
+      if: steps.changed-files.outputs.changed_files != ''
+      run: |
+        CHANGED_FILES="${{ steps.changed-files.outputs.changed_files }}"
+        for file in $CHANGED_FILES; do
+          if [ -f "$file" ]; then
+            ctags -x --c-kinds=f "$file" | awk '{print $1}' >> functions.txt
+          fi
+        done
+
+    - name: Generate test cases
+      if: steps.changed-files.outputs.changed_files != ''
+      run: |
+        python3 scripts/generate_tests.py functions.txt test_temperature.c
+
+    - name: Compile with coverage
+      run: |
+        gcc -IUnity/src -fprofile-arcs -ftest-coverage Unity/src/unity.c sensor.c converter.c test_temperature.c -o test_app
+
+    - name: Run tests
+      run: |
+        ./test_app
+
+    - name: Generate coverage report
+      run: |
+        lcov --capture --directory . --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' '*/Unity/*' --output-file coverage.info
+        genhtml coverage.info --output-directory coverage-report
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./coverage-report
+
+    - name: Add coverage link to summary
+      run: |
+        echo "## Coverage Report" >> $GITHUB_STEP_SUMMARY
+        echo "View the coverage report: https://swathantrapulicherla.github.io/Agent_AI_TC/coverage-report/" >> $GITHUB_STEP_SUMMARY
