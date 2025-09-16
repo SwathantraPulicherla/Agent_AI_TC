@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-09-16 19:02:32</td>
+            <td class="headerValue">2025-09-16 19:10:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -63,27 +63,27 @@
 <span id="L1"><span class="lineNum">       1</span>              : #include &lt;stdio.h&gt;</span>
 <span id="L2"><span class="lineNum">       2</span>              : #include &quot;sensor.h&quot;</span>
 <span id="L3"><span class="lineNum">       3</span>              : </span>
-<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">           2 : int get_sensor_reading() {</span></span>
+<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">           3 : int get_sensor_reading() {</span></span>
 <span id="L5"><span class="lineNum">       5</span>              :     // Simulate sensor reading</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           2 :     return 25; // degrees Celsius</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           3 :     return 25; // degrees Celsius</span></span>
 <span id="L7"><span class="lineNum">       7</span>              : }</span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           2 : int get_sensor_status() {</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           3 : int get_sensor_status() {</span></span>
 <span id="L10"><span class="lineNum">      10</span>              :     // Check if sensor is working</span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           2 :     return 1; // 1 = OK, 0 = Error</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           3 :     return 1; // 1 = OK, 0 = Error</span></span>
 <span id="L12"><span class="lineNum">      12</span>              : }</span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           2 : float calibrate_sensor(int offset) {</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           3 : float calibrate_sensor(int offset) {</span></span>
 <span id="L15"><span class="lineNum">      15</span>              :     // Calibrate sensor with offset</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 :     return 25.0 + offset;</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           3 :     return 25.0 + offset;</span></span>
 <span id="L17"><span class="lineNum">      17</span>              : }</span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           6 : int validate_temperature(int temp) {</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           9 : int validate_temperature(int temp) {</span></span>
 <span id="L20"><span class="lineNum">      20</span>              :     // Validate temperature range</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           6 :     if (temp &gt;= -50 &amp;&amp; temp &lt;= 100) {</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           2 :         return 1; // Valid</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           9 :     if (temp &gt;= -50 &amp;&amp; temp &lt;= 100) {</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           3 :         return 1; // Valid</span></span>
 <span id="L23"><span class="lineNum">      23</span>              :     }</span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           4 :     return 0; // Invalid</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           6 :     return 0; // Invalid</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : }</span>
         </pre>
               </td>
