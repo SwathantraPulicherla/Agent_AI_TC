@@ -1,0 +1,357 @@
+        -:    0:Source:converter.c
+        -:    1:#include "converter.h"
+        -:    2:#include "sensor.h"
+        -:    3:
+        -:    4:sensor_func_t sensor_func = get_sensor_reading;
+        -:    5:
+function convert_to_fahrenheit called 16 returned 100% blocks executed 100%
+       16:    6:float convert_to_fahrenheit() {
+       16:    7:    int celsius = sensor_func();
+call    0 returned 100%
+       16:    8:    return (celsius * 9.0 / 5.0) + 32.0;
+        -:    9:}
+        -:   10:
+function convert_to_kelvin called 4 returned 100% blocks executed 100%
+        4:   11:float convert_to_kelvin() {
+        4:   12:    int celsius = sensor_func();
+call    0 returned 100%
+        4:   13:    return celsius + 273.15;
+        -:   14:}
+        -:   15:
+function convert_to_rankine called 4 returned 100% blocks executed 100%
+        4:   16:float convert_to_rankine() {
+        4:   17:    int celsius = sensor_func();
+call    0 returned 100%
+        4:   18:    return (celsius + 273.15) * 9.0 / 5.0;
+        -:   19:}
+        -:   20:
+function get_temperature_scale_name called 24 returned 100% blocks executed 100%
+       24:   21:char* get_temperature_scale_name(int scale) {
+       24:   22:    switch (scale) {
+branch  0 taken 33%
+branch  1 taken 17%
+branch  2 taken 17%
+branch  3 taken 17%
+branch  4 taken 17%
+        8:   23:        case 0: return "Celsius";
+        4:   24:        case 1: return "Fahrenheit";
+        4:   25:        case 2: return "Kelvin";
+        4:   26:        case 3: return "Rankine";
+        4:   27:        default: return "Unknown";
+        -:   28:    }
+        -:   29:}
+        -:   30:
+function is_temperature_extreme called 36 returned 100% blocks executed 100%
+       36:   31:int is_temperature_extreme(float temp, int scale) {
+       36:   32:    switch (scale) {
+branch  0 taken 44%
+branch  1 taken 22%
+branch  2 taken 22%
+branch  3 taken 11%
+       16:   33:        case 0: // Celsius
+       16:   34:            return (temp < -40 || temp > 50) ? 1 : 0;
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 50% (fallthrough)
+branch  3 taken 50%
+        8:   35:        case 1: // Fahrenheit
+        8:   36:            return (temp < -40 || temp > 122) ? 1 : 0;
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 50% (fallthrough)
+branch  3 taken 50%
+        8:   37:        case 2: // Kelvin
+        8:   38:            return (temp < 233 || temp > 323) ? 1 : 0;
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 50% (fallthrough)
+branch  3 taken 50%
+        4:   39:        default:
+        4:   40:            return 0;
+        -:   41:    }
+        -:   42:}
+        -:   43:
+function convert_between_scales called 32 returned 100% blocks executed 92%
+       32:   44:float convert_between_scales(float temp, int from_scale, int to_scale) {
+        -:   45:    // Convert temperature between different scales
+        -:   46:    float celsius_temp;
+        -:   47:
+        -:   48:    // First convert to Celsius
+       32:   49:    switch (from_scale) {
+branch  0 taken 38%
+branch  1 taken 12%
+branch  2 taken 12%
+branch  3 taken 25%
+branch  4 taken 12%
+       12:   50:        case 0: // Already Celsius
+       12:   51:            celsius_temp = temp;
+       12:   52:            break;
+        4:   53:        case 1: // Fahrenheit to Celsius
+        4:   54:            celsius_temp = (temp - 32) * 5.0 / 9.0;
+        4:   55:            break;
+        4:   56:        case 2: // Kelvin to Celsius
+        4:   57:            celsius_temp = temp - 273.15;
+        4:   58:            break;
+        8:   59:        case 3: // Rankine to Celsius
+        8:   60:            celsius_temp = (temp - 491.67) * 5.0 / 9.0;
+        8:   61:            break;
+        4:   62:        default:
+        4:   63:            return 0.0; // Invalid scale
+        -:   64:    }
+        -:   65:
+        -:   66:    // Then convert from Celsius to target scale
+       28:   67:    switch (to_scale) {
+branch  0 taken 29%
+branch  1 taken 29%
+branch  2 taken 14%
+branch  3 taken 29%
+branch  4 taken 0%
+        8:   68:        case 0: // To Celsius
+        8:   69:            return celsius_temp;
+        8:   70:        case 1: // To Fahrenheit
+        8:   71:            return (celsius_temp * 9.0 / 5.0) + 32;
+        4:   72:        case 2: // To Kelvin
+        4:   73:            return celsius_temp + 273.15;
+        8:   74:        case 3: // To Rankine
+        8:   75:            return (celsius_temp + 273.15) * 9.0 / 5.0;
+    #####:   76:        default:
+    #####:   77:            return 0.0; // Invalid scale
+        -:   78:    }
+        -:   79:}
+        -:   80:
+function get_temperature_category called 68 returned 100% blocks executed 100%
+       68:   81:int get_temperature_category(float temp, int scale) {
+        -:   82:    // Categorize temperature as Cold, Normal, Warm, Hot
+        -:   83:    float celsius_temp;
+        -:   84:
+        -:   85:    // Convert to Celsius for categorization
+       68:   86:    switch (scale) {
+branch  0 taken 24%
+branch  1 taken 24%
+branch  2 taken 24%
+branch  3 taken 24%
+branch  4 taken 6%
+       16:   87:        case 0: celsius_temp = temp; break;
+       16:   88:        case 1: celsius_temp = (temp - 32) * 5.0 / 9.0; break;
+       16:   89:        case 2: celsius_temp = temp - 273.15; break;
+       16:   90:        case 3: celsius_temp = (temp - 491.67) * 5.0 / 9.0; break;
+        4:   91:        default: return -1; // Invalid
+        -:   92:    }
+        -:   93:
+       64:   94:    if (celsius_temp < 0) return 0;      // Cold
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+       48:   95:    else if (celsius_temp < 20) return 1; // Normal
+branch  0 taken 33% (fallthrough)
+branch  1 taken 67%
+       32:   96:    else if (celsius_temp < 30) return 2; // Warm
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+       16:   97:    else return 3;                       // Hot
+        -:   98:}
+        -:   99:
+function get_temperature_category_name called 20 returned 100% blocks executed 100%
+       20:  100:char* get_temperature_category_name(int category) {
+       20:  101:    switch (category) {
+branch  0 taken 20%
+branch  1 taken 20%
+branch  2 taken 20%
+branch  3 taken 20%
+branch  4 taken 20%
+        4:  102:        case 0: return "Cold";
+        4:  103:        case 1: return "Normal";
+        4:  104:        case 2: return "Warm";
+        4:  105:        case 3: return "Hot";
+        4:  106:        default: return "Unknown";
+        -:  107:    }
+        -:  108:}
+        -:  109:
+function get_temperature_warning_threshold called 64 returned 100% blocks executed 90%
+       64:  110:float get_temperature_warning_threshold(int scale, int warning_type) {
+        -:  111:    // Return warning thresholds for different scales
+        -:  112:    // warning_type: 0=freeze, 1=heat, 2=extreme_cold, 3=extreme_heat
+       64:  113:    switch (scale) {
+branch  0 taken 31%
+branch  1 taken 31%
+branch  2 taken 31%
+branch  3 taken 6%
+       20:  114:        case 0: // Celsius
+       20:  115:            switch (warning_type) {
+branch  0 taken 20%
+branch  1 taken 20%
+branch  2 taken 20%
+branch  3 taken 20%
+branch  4 taken 20%
+        4:  116:                case 0: return 0.0;   // Freeze warning
+        4:  117:                case 1: return 30.0;  // Heat warning
+        4:  118:                case 2: return -20.0; // Extreme cold
+        4:  119:                case 3: return 40.0;  // Extreme heat
+        4:  120:                default: return 0.0;
+        -:  121:            }
+       20:  122:        case 1: // Fahrenheit
+       20:  123:            switch (warning_type) {
+branch  0 taken 20%
+branch  1 taken 40%
+branch  2 taken 20%
+branch  3 taken 20%
+branch  4 taken 0%
+        4:  124:                case 0: return 32.0;   // Freeze warning
+        8:  125:                case 1: return 86.0;   // Heat warning
+        4:  126:                case 2: return -4.0;   // Extreme cold
+        4:  127:                case 3: return 104.0;  // Extreme heat
+    #####:  128:                default: return 0.0;
+        -:  129:            }
+       20:  130:        case 2: // Kelvin
+       20:  131:            switch (warning_type) {
+branch  0 taken 20%
+branch  1 taken 20%
+branch  2 taken 40%
+branch  3 taken 20%
+branch  4 taken 0%
+        4:  132:                case 0: return 273.15; // Freeze warning
+        4:  133:                case 1: return 303.15; // Heat warning
+        8:  134:                case 2: return 253.15; // Extreme cold
+        4:  135:                case 3: return 313.15; // Extreme heat
+    #####:  136:                default: return 0.0;
+        -:  137:            }
+        4:  138:        default:
+        4:  139:            return 0.0;
+        -:  140:    }
+        -:  141:}
+        -:  142:
+function celsius_to_fahrenheit called 4 returned 100% blocks executed 100%
+        4:  143:float celsius_to_fahrenheit(float celsius) {
+        4:  144:    return (celsius * 9.0 / 5.0) + 32.0;
+        -:  145:}
+        -:  146:
+function fahrenheit_to_celsius called 4 returned 100% blocks executed 100%
+        4:  147:float fahrenheit_to_celsius(float fahrenheit) {
+        4:  148:    return (fahrenheit - 32.0) * 5.0 / 9.0;
+        -:  149:}
+        -:  150:
+function celsius_to_kelvin called 4 returned 100% blocks executed 100%
+        4:  151:float celsius_to_kelvin(float celsius) {
+        4:  152:    return celsius + 273.15;
+        -:  153:}
+        -:  154:
+function kelvin_to_celsius called 4 returned 100% blocks executed 100%
+        4:  155:float kelvin_to_celsius(float kelvin) {
+        4:  156:    return kelvin - 273.15;
+        -:  157:}
+        -:  158:
+function fahrenheit_to_kelvin called 4 returned 100% blocks executed 100%
+        4:  159:float fahrenheit_to_kelvin(float fahrenheit) {
+        4:  160:    return (fahrenheit - 32.0) * 5.0 / 9.0 + 273.15;
+        -:  161:}
+        -:  162:
+function kelvin_to_fahrenheit called 4 returned 100% blocks executed 100%
+        4:  163:float kelvin_to_fahrenheit(float kelvin) {
+        4:  164:    return (kelvin - 273.15) * 9.0 / 5.0 + 32.0;
+        -:  165:}
+        -:  166:
+function celsius_to_rankine called 4 returned 100% blocks executed 100%
+        4:  167:float celsius_to_rankine(float celsius) {
+        4:  168:    return (celsius + 273.15) * 9.0 / 5.0;
+        -:  169:}
+        -:  170:
+function rankine_to_celsius called 4 returned 100% blocks executed 100%
+        4:  171:float rankine_to_celsius(float rankine) {
+        4:  172:    return (rankine - 491.67) * 5.0 / 9.0;
+        -:  173:}
+        -:  174:
+function is_temperature_in_range called 8 returned 100% blocks executed 67%
+        8:  175:int is_temperature_in_range(float temp, int scale, float min, float max) {
+        -:  176:    // Check if temperature is within specified range
+        -:  177:    float celsius_temp;
+        -:  178:
+        -:  179:    // Convert to Celsius for comparison
+        8:  180:    switch (scale) {
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        8:  181:        case 0: celsius_temp = temp; break;
+    #####:  182:        case 1: celsius_temp = fahrenheit_to_celsius(temp); break;
+call    0 never executed
+    #####:  183:        case 2: celsius_temp = kelvin_to_celsius(temp); break;
+call    0 never executed
+    #####:  184:        case 3: celsius_temp = rankine_to_celsius(temp); break;
+call    0 never executed
+    #####:  185:        default: return 0; // Invalid scale
+        -:  186:    }
+        -:  187:
+        8:  188:    return (celsius_temp >= min && celsius_temp <= max) ? 1 : 0;
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 50% (fallthrough)
+branch  3 taken 50%
+        -:  189:}
+        -:  190:
+function get_temperature_difference called 4 returned 100% blocks executed 100%
+        4:  191:float get_temperature_difference(float temp1, float temp2, int scale) {
+        -:  192:    // Calculate difference between two temperatures
+        4:  193:    return temp1 - temp2;
+        -:  194:}
+        -:  195:
+function format_temperature called 8 returned 100% blocks executed 57%
+        8:  196:char* format_temperature(float temp, int scale, int precision) {
+        -:  197:    // Format temperature with specified precision (mock implementation)
+        8:  198:    switch (scale) {
+branch  0 taken 50%
+branch  1 taken 50%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        4:  199:        case 0: return "25.0°C";
+        4:  200:        case 1: return "77.0°F";
+    #####:  201:        case 2: return "298.2K";
+    #####:  202:        case 3: return "536.7°R";
+    #####:  203:        default: return "N/A";
+        -:  204:    }
+        -:  205:}
+        -:  206:
+function compare_temperatures called 12 returned 100% blocks executed 100%
+       12:  207:int compare_temperatures(float temp1, float temp2) {
+        -:  208:    // Compare two temperatures: -1 if temp1 < temp2, 0 if equal, 1 if temp1 > temp2
+       12:  209:    if (temp1 < temp2) return -1;
+branch  0 taken 33% (fallthrough)
+branch  1 taken 67%
+        8:  210:    if (temp1 > temp2) return 1;
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+        4:  211:    return 0;
+        -:  212:}
+        -:  213:
+function get_average_temperature called 8 returned 100% blocks executed 100%
+        8:  214:float get_average_temperature(float temps[], int count) {
+        -:  215:    // Calculate average of temperature array
+        8:  216:    if (count == 0) return 0.0;
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+        -:  217:
+        4:  218:    float sum = 0.0;
+       16:  219:    for (int i = 0; i < count; i++) {
+branch  0 taken 75%
+branch  1 taken 25% (fallthrough)
+       12:  220:        sum += temps[i];
+        -:  221:    }
+        4:  222:    return sum / count;
+        -:  223:}
+        -:  224:
+function get_temperature_variance called 6 returned 100% blocks executed 100%
+        6:  225:float get_temperature_variance(float temps[], int count, float mean) {
+        -:  226:    // Calculate variance of temperature array
+        6:  227:    if (count <= 1) return 0.0;
+branch  0 taken 33% (fallthrough)
+branch  1 taken 67%
+        -:  228:
+        4:  229:    float sum_squared_diff = 0.0;
+       16:  230:    for (int i = 0; i < count; i++) {
+branch  0 taken 75%
+branch  1 taken 25% (fallthrough)
+       12:  231:        float diff = temps[i] - mean;
+       12:  232:        sum_squared_diff += diff * diff;
+        -:  233:    }
+        4:  234:    return sum_squared_diff / (count - 1);
+        -:  235:}

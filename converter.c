@@ -139,3 +139,97 @@ float get_temperature_warning_threshold(int scale, int warning_type) {
             return 0.0;
     }
 }
+
+float celsius_to_fahrenheit(float celsius) {
+    return (celsius * 9.0 / 5.0) + 32.0;
+}
+
+float fahrenheit_to_celsius(float fahrenheit) {
+    return (fahrenheit - 32.0) * 5.0 / 9.0;
+}
+
+float celsius_to_kelvin(float celsius) {
+    return celsius + 273.15;
+}
+
+float kelvin_to_celsius(float kelvin) {
+    return kelvin - 273.15;
+}
+
+float fahrenheit_to_kelvin(float fahrenheit) {
+    return (fahrenheit - 32.0) * 5.0 / 9.0 + 273.15;
+}
+
+float kelvin_to_fahrenheit(float kelvin) {
+    return (kelvin - 273.15) * 9.0 / 5.0 + 32.0;
+}
+
+float celsius_to_rankine(float celsius) {
+    return (celsius + 273.15) * 9.0 / 5.0;
+}
+
+float rankine_to_celsius(float rankine) {
+    return (rankine - 491.67) * 5.0 / 9.0;
+}
+
+int is_temperature_in_range(float temp, int scale, float min, float max) {
+    // Check if temperature is within specified range
+    float celsius_temp;
+
+    // Convert to Celsius for comparison
+    switch (scale) {
+        case 0: celsius_temp = temp; break;
+        case 1: celsius_temp = fahrenheit_to_celsius(temp); break;
+        case 2: celsius_temp = kelvin_to_celsius(temp); break;
+        case 3: celsius_temp = rankine_to_celsius(temp); break;
+        default: return 0; // Invalid scale
+    }
+
+    return (celsius_temp >= min && celsius_temp <= max) ? 1 : 0;
+}
+
+float get_temperature_difference(float temp1, float temp2, int scale) {
+    // Calculate difference between two temperatures
+    return temp1 - temp2;
+}
+
+char* format_temperature(float temp, int scale, int precision) {
+    // Format temperature with specified precision (mock implementation)
+    switch (scale) {
+        case 0: return "25.0°C";
+        case 1: return "77.0°F";
+        case 2: return "298.2K";
+        case 3: return "536.7°R";
+        default: return "N/A";
+    }
+}
+
+int compare_temperatures(float temp1, float temp2) {
+    // Compare two temperatures: -1 if temp1 < temp2, 0 if equal, 1 if temp1 > temp2
+    if (temp1 < temp2) return -1;
+    if (temp1 > temp2) return 1;
+    return 0;
+}
+
+float get_average_temperature(float temps[], int count) {
+    // Calculate average of temperature array
+    if (count == 0) return 0.0;
+
+    float sum = 0.0;
+    for (int i = 0; i < count; i++) {
+        sum += temps[i];
+    }
+    return sum / count;
+}
+
+float get_temperature_variance(float temps[], int count, float mean) {
+    // Calculate variance of temperature array
+    if (count <= 1) return 0.0;
+
+    float sum_squared_diff = 0.0;
+    for (int i = 0; i < count; i++) {
+        float diff = temps[i] - mean;
+        sum_squared_diff += diff * diff;
+    }
+    return sum_squared_diff / (count - 1);
+}
