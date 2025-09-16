@@ -62,4 +62,4 @@ jobs:
     - name: Add coverage link to summary
       run: |
         echo "## Coverage Report" >> $GITHUB_STEP_SUMMARY
-        echo "View the coverage report: https://swathantrapulicherla.github.io/Agent_AI_TC/coverage-report/" >> $GITHUB_STEP_SUMMARY
+        echo "View the coverage report: https://swathantrapulicherla.github.io/Agent_AI_TC/" >> $GITHUB_STEP_SUMMARY
