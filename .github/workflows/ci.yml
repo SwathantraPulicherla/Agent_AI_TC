@@ -5,6 +5,8 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -37,6 +39,19 @@ jobs:
       if: steps.changed-files.outputs.changed_files != ''
       run: |
         python3 scripts/generate_tests.py functions.txt test_temperature.c
+
+    - name: Commit generated tests
+      if: steps.changed-files.outputs.changed_files != ''
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add test_temperature.c
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Auto-generate test cases for new functions"
+          git push
+        fi
 
     - name: Compile with coverage
       run: |
