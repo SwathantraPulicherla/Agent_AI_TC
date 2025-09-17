@@ -17,7 +17,8 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc make lcov universal-ctags python3
+        sudo apt-get install -y gcc make lcov universal-ctags python3 python3-pip bc
+        pip3 install requests
 
     - name: Detect changed source files
       id: changed-files
@@ -36,26 +37,32 @@ jobs:
       if: steps.changed-files.outputs.changed_files != ''
       run: |
         CHANGED_FILES="${{ steps.changed-files.outputs.changed_files }}"
-        rm -f functions.txt
-        for file in $CHANGED_FILES; do
-          if [ -f "$file" ]; then
-            echo "Extracting functions from $file"
-            ctags -x --c-kinds=f "$file" | awk '{print $1}' >> functions.txt
-          fi
-        done
-        # Remove duplicates
-        sort -u functions.txt -o functions.txt
+        rm -f functions.json functions.txt
+        python3 scripts/extract_functions.py $CHANGED_FILES
         echo "Extracted functions:"
         cat functions.txt
 
-    - name: Generate test cases
+    - name: Generate AI test cases
       if: steps.changed-files.outputs.changed_files != ''
       run: |
-        if [ -f functions.txt ] && [ -s functions.txt ]; then
-          echo "Generating tests for new functions..."
-          python3 scripts/generate_tests.py functions.txt test_temperature.c
+        if [ -f functions.json ]; then
+          echo "Generating AI tests for new functions..."
+          python3 scripts/generate_ai_tests.py functions.json ai_generated_tests.c
         else
-          echo "No new functions to test"
+          echo "No functions.json found"
+        fi
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    - name: Append AI generated tests
+      if: steps.changed-files.outputs.changed_files != ''
+      run: |
+        if [ -f ai_generated_tests.c ]; then
+          cat ai_generated_tests.c >> test_temperature.c
+        fi
+        if [ -f run_tests.txt ]; then
+          # Insert RUN_TEST before return UNITY_END();
+          sed -i '/return UNITY_END();/i $(cat run_tests.txt)' test_temperature.c
         fi
 
     - name: Commit generated tests
@@ -88,6 +95,31 @@ jobs:
         lcov --remove coverage.info '*/Unity/*' '*/test_temperature.c' --output-file coverage.info --ignore-errors unused
         lcov --extract coverage.info '*/sensor.c' '*/converter.c' --output-file coverage.info
         genhtml coverage.info --output-directory coverage-report --ignore-errors source --synthesize-missing
+
+    - name: Check coverage
+      run: |
+        # Extract current coverage percentage
+        COVERAGE=$(lcov --summary coverage.info | grep "lines......:" | awk '{print $2}' | sed 's/%//')
+        echo "Current coverage: $COVERAGE%"
+        
+        # Get previous coverage from main branch
+        git fetch origin main
+        PREV_COVERAGE_FILE=/tmp/prev_coverage.txt
+        if git show origin/main:coverage_percentage.txt > $PREV_COVERAGE_FILE 2>/dev/null; then
+          PREV_COVERAGE=$(cat $PREV_COVERAGE_FILE)
+          echo "Previous coverage: $PREV_COVERAGE%"
+          if (( $(echo "$COVERAGE < $PREV_COVERAGE" | bc -l) )); then
+            echo "Coverage decreased from $PREV_COVERAGE% to $COVERAGE%"
+            exit 1
+          fi
+        else
+          echo "No previous coverage found, this is the first run"
+        fi
+        
+        # Save current coverage for next run
+        echo "$COVERAGE" > coverage_percentage.txt
+        git add coverage_percentage.txt
+        git commit -m "Update coverage percentage" || true
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

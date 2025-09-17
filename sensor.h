@@ -1,6 +1,8 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
+#include <stdbool.h>
+
 int get_sensor_reading();
 int get_sensor_status();
 float calibrate_sensor(int offset);
@@ -16,5 +18,6 @@ int is_sensor_connected();
 void log_sensor_reading(int temp);
 int get_sensor_reading_history(int index);
 int get_sensor_uptime();
+bool detect_rapid_temperature_change(int previous_temp, int current_temp, int threshold);
 
 #endif

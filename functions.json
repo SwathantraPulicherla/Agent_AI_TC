@@ -1,0 +1,98 @@
+[
+  {
+    "name": "get_sensor_reading",
+    "signature": "int get_sensor_reading() {",
+    "logic": "// Simulate sensor reading\n    return 25; // degrees Celsius",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_status",
+    "signature": "int get_sensor_status() {",
+    "logic": "// Check if sensor is working\n    return 1; // 1 = OK, 0 = Error",
+    "file": "sensor.c"
+  },
+  {
+    "name": "calibrate_sensor",
+    "signature": "float calibrate_sensor(int offset) {",
+    "logic": "// Calibrate sensor with offset\n    return 25.0 + offset;",
+    "file": "sensor.c"
+  },
+  {
+    "name": "validate_temperature",
+    "signature": "int validate_temperature(int temp) {",
+    "logic": "// Validate temperature range\n    if (temp >= -50 && temp <= 100) {\n        return 1; // Valid\n    }\n    return 0; // Invalid",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_health_percentage",
+    "signature": "int get_sensor_health_percentage() {",
+    "logic": "// Return sensor health as percentage\n    return 95; // Mock healthy sensor",
+    "file": "sensor.c"
+  },
+  {
+    "name": "reset_sensor_calibration",
+    "signature": "void reset_sensor_calibration() {",
+    "logic": "// Reset sensor calibration to factory defaults\n    // Mock implementation",
+    "file": "sensor.c"
+  },
+  {
+    "name": "is_sensor_calibrated",
+    "signature": "int is_sensor_calibrated() {",
+    "logic": "// Check if sensor is properly calibrated\n    return 1; // Mock calibrated",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_accuracy",
+    "signature": "float get_sensor_accuracy() {",
+    "logic": "// Return sensor accuracy in percentage\n    return 99.5; // Mock high accuracy",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_error_code",
+    "signature": "int get_sensor_error_code() {",
+    "logic": "// Return last error code (0 = no error)\n    return 0; // Mock no error",
+    "file": "sensor.c"
+  },
+  {
+    "name": "set_sensor_threshold",
+    "signature": "void set_sensor_threshold(float threshold) {",
+    "logic": "// Set temperature threshold for alerts\n    // Mock implementation",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_threshold",
+    "signature": "float get_sensor_threshold() {",
+    "logic": "// Get current temperature threshold\n    return 30.0; // Mock threshold",
+    "file": "sensor.c"
+  },
+  {
+    "name": "is_sensor_connected",
+    "signature": "int is_sensor_connected() {",
+    "logic": "// Check if sensor is physically connected\n    return 1; // Mock connected",
+    "file": "sensor.c"
+  },
+  {
+    "name": "log_sensor_reading",
+    "signature": "void log_sensor_reading(int temp) {",
+    "logic": "// Log temperature reading (mock implementation)\n    // In real implementation, would write to log file",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_reading_history",
+    "signature": "int get_sensor_reading_history(int index) {",
+    "logic": "// Get historical reading at index (0 = latest)\n    if (index == 0) return 25;\n    if (index == 1) return 24;\n    if (index == 2) return 26;\n    return -999; // Invalid index",
+    "file": "sensor.c"
+  },
+  {
+    "name": "get_sensor_uptime",
+    "signature": "int get_sensor_uptime() {",
+    "logic": "// Get sensor uptime in hours\n    return 168; // Mock 1 week uptime",
+    "file": "sensor.c"
+  },
+  {
+    "name": "detect_rapid_temperature_change",
+    "signature": "bool detect_rapid_temperature_change(int previous_temp, int current_temp, int threshold) {",
+    "logic": "// Detects if the temperature has changed by more than the specified threshold.\n    // Returns 'true' if a rapid change is detected, otherwise 'false'.\n    if (abs(current_temp - previous_temp) > threshold) {\n        return true;\n    }\n    return false;",
+    "file": "sensor.c"
+  }
+]

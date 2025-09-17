@@ -748,11 +748,24 @@ void test_is_temperature_safe_unsafe_rankine() {
 
 
 
-void test_detect_rapid_temperature_change() {
-    // AI-generated test for detect_rapid_temperature_change
-    // Test with sample inputs
-    // Note: This is a basic test - you may need to customize based on function behavior
-    TEST_ASSERT_TRUE(true);  // Basic test - function exists and doesn't crash
+void test_detect_rapid_temperature_change_positive_change_above_threshold(void) {
+    // Change of 15 with threshold of 10 should return true
+    TEST_ASSERT_TRUE(detect_rapid_temperature_change(20, 35, 10));
+}
+
+void test_detect_rapid_temperature_change_negative_change_above_threshold(void) {
+    // Change of -15 with threshold of 10 should return true
+    TEST_ASSERT_TRUE(detect_rapid_temperature_change(35, 20, 10));
+}
+
+void test_detect_rapid_temperature_change_change_on_threshold(void) {
+    // Change equals threshold (10), should return false
+    TEST_ASSERT_FALSE(detect_rapid_temperature_change(20, 30, 10));
+}
+
+void test_detect_rapid_temperature_change_change_below_threshold(void) {
+    // Change below threshold, should return false
+    TEST_ASSERT_FALSE(detect_rapid_temperature_change(20, 25, 10));
 }
 
 int main() {
@@ -884,6 +897,11 @@ int main() {
     RUN_TEST(test_is_temperature_safe_invalid_scale);
 
         RUN_TEST(test_get_sensor_uptime);
-        RUN_TEST(test_detect_rapid_temperature_change);
+
+    RUN_TEST(test_detect_rapid_temperature_change_positive_change_above_threshold);
+    RUN_TEST(test_detect_rapid_temperature_change_negative_change_above_threshold);
+    RUN_TEST(test_detect_rapid_temperature_change_change_on_threshold);
+    RUN_TEST(test_detect_rapid_temperature_change_change_below_threshold);
+
     return UNITY_END();
 }
