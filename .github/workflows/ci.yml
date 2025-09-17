@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-        fetch-depth: 2  # To compare with previous commit
+        fetch-depth: 0  # Fetch all history to handle first commits properly
 
     - name: Install dependencies
       run: |
@@ -22,23 +22,41 @@ jobs:
     - name: Detect changed source files
       id: changed-files
       run: |
-        CHANGED_FILES=$(git diff --name-only HEAD~1 | grep '\.c$' | grep -v '^test_' | tr '\n' ' ')
+        # Handle first commit case
+        if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+          CHANGED_FILES=$(git diff --name-only HEAD~1 | grep '\.c$' | grep -v '^test_' | tr '\n' ' ')
+        else
+          # First commit - check all .c files except test files
+          CHANGED_FILES=$(git ls-files '*.c' | grep -v '^test_' | tr '\n' ' ')
+        fi
         echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+        echo "Detected changed files: $CHANGED_FILES"
 
     - name: Extract functions from changed files
       if: steps.changed-files.outputs.changed_files != ''
       run: |
         CHANGED_FILES="${{ steps.changed-files.outputs.changed_files }}"
+        rm -f functions.txt
         for file in $CHANGED_FILES; do
           if [ -f "$file" ]; then
+            echo "Extracting functions from $file"
             ctags -x --c-kinds=f "$file" | awk '{print $1}' >> functions.txt
           fi
         done
+        # Remove duplicates
+        sort -u functions.txt -o functions.txt
+        echo "Extracted functions:"
+        cat functions.txt
 
     - name: Generate test cases
       if: steps.changed-files.outputs.changed_files != ''
       run: |
-        python3 scripts/generate_tests.py functions.txt test_temperature.c
+        if [ -f functions.txt ] && [ -s functions.txt ]; then
+          echo "Generating tests for new functions..."
+          python3 scripts/generate_tests.py functions.txt test_temperature.c
+        else
+          echo "No new functions to test"
+        fi
 
     - name: Commit generated tests
       if: steps.changed-files.outputs.changed_files != ''
@@ -49,22 +67,25 @@ jobs:
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Auto-generate test cases for new functions"
+          git commit -m "Auto-generate test cases for new/modified functions"
           git push
         fi
 
     - name: Compile with coverage
       run: |
+        echo "Compiling with coverage flags..."
         gcc -IUnity/src -fprofile-arcs -ftest-coverage Unity/src/unity.c sensor.c converter.c test_temperature.c -o test_app
 
     - name: Run tests
       run: |
+        echo "Running test suite..."
         ./test_app
 
     - name: Generate coverage report
       run: |
+        echo "Generating coverage report..."
         lcov --capture --directory . --output-file coverage.info --ignore-errors source
-        lcov --remove coverage.info '*/Unity/*' '*/test_temperature.c' '*/main.c' --output-file coverage.info --ignore-errors unused
+        lcov --remove coverage.info '*/Unity/*' '*/test_temperature.c' --output-file coverage.info --ignore-errors unused
         lcov --extract coverage.info '*/sensor.c' '*/converter.c' --output-file coverage.info
         genhtml coverage.info --output-directory coverage-report --ignore-errors source --synthesize-missing
 
