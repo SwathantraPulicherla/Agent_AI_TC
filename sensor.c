@@ -76,3 +76,8 @@ int get_sensor_reading_history(int index) {
     if (index == 2) return 26;
     return -999; // Invalid index
 }
+
+int get_sensor_uptime() {
+    // Get sensor uptime in hours
+    return 168; // Mock 1 week uptime
+}

@@ -75,6 +75,16 @@ void test_{func}_invalid_low() {{
     RUN_TEST(test_{func}_invalid_high);
     RUN_TEST(test_{func}_invalid_low);
 '''
+    elif func == 'get_sensor_uptime':
+        test_names = [f'test_{func}']
+        test_code = f'''
+void test_{func}() {{
+    // AI-generated test for {func}
+    int result = get_sensor_uptime();
+    TEST_ASSERT_EQUAL(168, result);  // Expected uptime in hours
+}}
+'''
+        run_tests = f'    RUN_TEST(test_{func});'
     elif func == 'convert_to_fahrenheit':
         test_names = [f'test_{func}_normal', f'test_{func}_zero', f'test_{func}_negative']
         test_code = f'''

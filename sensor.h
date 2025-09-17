@@ -15,5 +15,6 @@ float get_sensor_threshold();
 int is_sensor_connected();
 void log_sensor_reading(int temp);
 int get_sensor_reading_history(int index);
+int get_sensor_uptime();
 
 #endif
