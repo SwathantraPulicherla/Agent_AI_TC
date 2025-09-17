@@ -1,103 +1,112 @@
         -:    0:Source:sensor.c
+        -:    0:Graph:test_app-sensor.gcno
+        -:    0:Data:test_app-sensor.gcda
+        -:    0:Runs:1
         -:    1:#include <stdio.h>
         -:    2:#include "sensor.h"
         -:    3:
-function get_sensor_reading called 4 returned 100% blocks executed 100%
-        4:    4:int get_sensor_reading() {
+function get_sensor_reading called 1 returned 100% blocks executed 100%
+        1:    4:int get_sensor_reading() {
         -:    5:    // Simulate sensor reading
-        4:    6:    return 25; // degrees Celsius
+        1:    6:    return 25; // degrees Celsius
         -:    7:}
         -:    8:
-function get_sensor_status called 4 returned 100% blocks executed 100%
-        4:    9:int get_sensor_status() {
+function get_sensor_status called 1 returned 100% blocks executed 100%
+        1:    9:int get_sensor_status() {
         -:   10:    // Check if sensor is working
-        4:   11:    return 1; // 1 = OK, 0 = Error
+        1:   11:    return 1; // 1 = OK, 0 = Error
         -:   12:}
         -:   13:
-function calibrate_sensor called 4 returned 100% blocks executed 100%
-        4:   14:float calibrate_sensor(int offset) {
+function calibrate_sensor called 1 returned 100% blocks executed 100%
+        1:   14:float calibrate_sensor(int offset) {
         -:   15:    // Calibrate sensor with offset
-        4:   16:    return 25.0 + offset;
+        1:   16:    return 25.0 + offset;
         -:   17:}
         -:   18:
-function validate_temperature called 12 returned 100% blocks executed 100%
-       12:   19:int validate_temperature(int temp) {
+function validate_temperature called 3 returned 100% blocks executed 100%
+        3:   19:int validate_temperature(int temp) {
         -:   20:    // Validate temperature range
-       12:   21:    if (temp >= -50 && temp <= 100) {
+        3:   21:    if (temp >= -50 && temp <= 100) {
 branch  0 taken 67% (fallthrough)
 branch  1 taken 33%
 branch  2 taken 50% (fallthrough)
 branch  3 taken 50%
-        4:   22:        return 1; // Valid
+        1:   22:        return 1; // Valid
         -:   23:    }
-        8:   24:    return 0; // Invalid
+        2:   24:    return 0; // Invalid
         -:   25:}
         -:   26:
-function get_sensor_health_percentage called 4 returned 100% blocks executed 100%
-        4:   27:int get_sensor_health_percentage() {
+function get_sensor_health_percentage called 1 returned 100% blocks executed 100%
+        1:   27:int get_sensor_health_percentage() {
         -:   28:    // Return sensor health as percentage
-        4:   29:    return 95; // Mock healthy sensor
+        1:   29:    return 95; // Mock healthy sensor
         -:   30:}
         -:   31:
-function reset_sensor_calibration called 4 returned 100% blocks executed 100%
-        4:   32:void reset_sensor_calibration() {
+function reset_sensor_calibration called 1 returned 100% blocks executed 100%
+        1:   32:void reset_sensor_calibration() {
         -:   33:    // Reset sensor calibration to factory defaults
         -:   34:    // Mock implementation
-        4:   35:}
+        1:   35:}
         -:   36:
-function is_sensor_calibrated called 4 returned 100% blocks executed 100%
-        4:   37:int is_sensor_calibrated() {
+function is_sensor_calibrated called 1 returned 100% blocks executed 100%
+        1:   37:int is_sensor_calibrated() {
         -:   38:    // Check if sensor is properly calibrated
-        4:   39:    return 1; // Mock calibrated
+        1:   39:    return 1; // Mock calibrated
         -:   40:}
         -:   41:
-function get_sensor_accuracy called 4 returned 100% blocks executed 100%
-        4:   42:float get_sensor_accuracy() {
+function get_sensor_accuracy called 1 returned 100% blocks executed 100%
+        1:   42:float get_sensor_accuracy() {
         -:   43:    // Return sensor accuracy in percentage
-        4:   44:    return 99.5; // Mock high accuracy
+        1:   44:    return 99.5; // Mock high accuracy
         -:   45:}
         -:   46:
-function get_sensor_error_code called 4 returned 100% blocks executed 100%
-        4:   47:int get_sensor_error_code() {
+function get_sensor_error_code called 1 returned 100% blocks executed 100%
+        1:   47:int get_sensor_error_code() {
         -:   48:    // Return last error code (0 = no error)
-        4:   49:    return 0; // Mock no error
+        1:   49:    return 0; // Mock no error
         -:   50:}
         -:   51:
-function set_sensor_threshold called 4 returned 100% blocks executed 100%
-        4:   52:void set_sensor_threshold(float threshold) {
+function set_sensor_threshold called 1 returned 100% blocks executed 100%
+        1:   52:void set_sensor_threshold(float threshold) {
         -:   53:    // Set temperature threshold for alerts
         -:   54:    // Mock implementation
-        4:   55:}
+        1:   55:}
         -:   56:
-function get_sensor_threshold called 4 returned 100% blocks executed 100%
-        4:   57:float get_sensor_threshold() {
+function get_sensor_threshold called 1 returned 100% blocks executed 100%
+        1:   57:float get_sensor_threshold() {
         -:   58:    // Get current temperature threshold
-        4:   59:    return 30.0; // Mock threshold
+        1:   59:    return 30.0; // Mock threshold
         -:   60:}
         -:   61:
-function is_sensor_connected called 4 returned 100% blocks executed 100%
-        4:   62:int is_sensor_connected() {
+function is_sensor_connected called 1 returned 100% blocks executed 100%
+        1:   62:int is_sensor_connected() {
         -:   63:    // Check if sensor is physically connected
-        4:   64:    return 1; // Mock connected
+        1:   64:    return 1; // Mock connected
         -:   65:}
         -:   66:
-function log_sensor_reading called 4 returned 100% blocks executed 100%
-        4:   67:void log_sensor_reading(int temp) {
+function log_sensor_reading called 1 returned 100% blocks executed 100%
+        1:   67:void log_sensor_reading(int temp) {
         -:   68:    // Log temperature reading (mock implementation)
         -:   69:    // In real implementation, would write to log file
-        4:   70:}
+        1:   70:}
         -:   71:
-function get_sensor_reading_history called 16 returned 100% blocks executed 100%
-       16:   72:int get_sensor_reading_history(int index) {
+function get_sensor_reading_history called 4 returned 100% blocks executed 100%
+        4:   72:int get_sensor_reading_history(int index) {
         -:   73:    // Get historical reading at index (0 = latest)
-       16:   74:    if (index == 0) return 25;
+        4:   74:    if (index == 0) return 25;
 branch  0 taken 25% (fallthrough)
 branch  1 taken 75%
-       12:   75:    if (index == 1) return 24;
+        3:   75:    if (index == 1) return 24;
 branch  0 taken 33% (fallthrough)
 branch  1 taken 67%
-        8:   76:    if (index == 2) return 26;
+        2:   76:    if (index == 2) return 26;
 branch  0 taken 50% (fallthrough)
 branch  1 taken 50%
-        4:   77:    return -999; // Invalid index
+        1:   77:    return -999; // Invalid index
         -:   78:}
+        -:   79:
+function get_sensor_uptime called 1 returned 100% blocks executed 100%
+        1:   80:int get_sensor_uptime() {
+        -:   81:    // Get sensor uptime in hours
+        1:   82:    return 168; // Mock 1 week uptime
+        -:   83:}

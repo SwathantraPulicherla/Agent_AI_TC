@@ -81,3 +81,4 @@ int get_sensor_uptime() {
     // Get sensor uptime in hours
     return 168; // Mock 1 week uptime
 }
+
