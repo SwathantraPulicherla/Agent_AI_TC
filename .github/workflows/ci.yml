@@ -22,7 +22,7 @@ jobs:
     - name: Detect changed source files
       id: changed-files
       run: |
-        CHANGED_FILES=$(git diff --name-only HEAD~1 | grep '\.c$' | tr '\n' ' ')
+        CHANGED_FILES=$(git diff --name-only HEAD~1 | grep '\.c$' | grep -v '^test_' | tr '\n' ' ')
         echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
 
     - name: Extract functions from changed files
