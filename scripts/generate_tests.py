@@ -379,7 +379,7 @@ void test_{func}_extreme_heat_celsius() {{
     RUN_TEST(test_{func}_extreme_heat_celsius);
 '''
     elif func == 'is_temperature_safe':
-        test_names = [f'test_{func}_safe_celsius', f'test_{func}_unsafe_celsius', f'test_{func}_safe_fahrenheit', f'test_{func}_unsafe_fahrenheit', f'test_{func}_invalid_scale']
+        test_names = [f'test_{func}_safe_celsius', f'test_{func}_unsafe_celsius', f'test_{func}_safe_fahrenheit', f'test_{func}_unsafe_fahrenheit', f'test_{func}_safe_kelvin', f'test_{func}_unsafe_kelvin', f'test_{func}_safe_rankine', f'test_{func}_unsafe_rankine', f'test_{func}_invalid_scale']
         test_code = f'''
 void test_{func}_safe_celsius() {{
     // AI-generated test for {func} - Safe temperature in Celsius
@@ -410,12 +410,40 @@ void test_{func}_invalid_scale() {{
     int result = is_temperature_safe(20.0, 99);
     TEST_ASSERT_EQUAL(0, result);  // Should be unsafe for invalid scale
 }}
+
+void test_{func}_safe_kelvin() {{
+    // AI-generated test for {func} - Safe temperature in Kelvin
+    int result = is_temperature_safe(293.15, 2);
+    TEST_ASSERT_EQUAL(1, result);  // Should be safe (293.15K = 20°C)
+}}
+
+void test_{func}_unsafe_kelvin() {{
+    // AI-generated test for {func} - Unsafe temperature in Kelvin
+    int result = is_temperature_safe(278.15, 2);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe (278.15K = 5°C)
+}}
+
+void test_{func}_safe_rankine() {{
+    // AI-generated test for {func} - Safe temperature in Rankine
+    int result = is_temperature_safe(527.67, 3);
+    TEST_ASSERT_EQUAL(1, result);  // Should be safe (527.67°R = 20°C)
+}}
+
+void test_{func}_unsafe_rankine() {{
+    // AI-generated test for {func} - Unsafe temperature in Rankine
+    int result = is_temperature_safe(500.67, 3);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe (500.67°R = 5°C)
+}}
 '''
         run_tests = f'''
     RUN_TEST(test_{func}_safe_celsius);
     RUN_TEST(test_{func}_unsafe_celsius);
     RUN_TEST(test_{func}_safe_fahrenheit);
     RUN_TEST(test_{func}_unsafe_fahrenheit);
+    RUN_TEST(test_{func}_safe_kelvin);
+    RUN_TEST(test_{func}_unsafe_kelvin);
+    RUN_TEST(test_{func}_safe_rankine);
+    RUN_TEST(test_{func}_unsafe_rankine);
     RUN_TEST(test_{func}_invalid_scale);
 '''
     else:

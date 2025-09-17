@@ -686,6 +686,61 @@ void test_get_temperature_variance() {
     TEST_ASSERT_FLOAT_WITHIN(0.01, 0.0, result);
 }
 
+
+void test_is_temperature_safe_safe_celsius() {
+    // AI-generated test for is_temperature_safe - Safe temperature in Celsius
+    int result = is_temperature_safe(20.0, 0);
+    TEST_ASSERT_EQUAL(1, result);  // Should be safe (20°C is within 10-30°C)
+}
+
+void test_is_temperature_safe_unsafe_celsius() {
+    // AI-generated test for is_temperature_safe - Unsafe temperature in Celsius
+    int result = is_temperature_safe(5.0, 0);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe (5°C is below 10°C)
+}
+
+void test_is_temperature_safe_safe_fahrenheit() {
+    // AI-generated test for is_temperature_safe - Safe temperature in Fahrenheit
+    int result = is_temperature_safe(68.0, 1);
+    TEST_ASSERT_EQUAL(1, result);  // Should be safe (68°F = 20°C)
+}
+
+void test_is_temperature_safe_unsafe_fahrenheit() {
+    // AI-generated test for is_temperature_safe - Unsafe temperature in Fahrenheit
+    int result = is_temperature_safe(41.0, 1);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe (41°F = 5°C)
+}
+
+void test_is_temperature_safe_invalid_scale() {
+    // AI-generated test for is_temperature_safe - Invalid scale
+    int result = is_temperature_safe(20.0, 99);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe for invalid scale
+}
+
+void test_is_temperature_safe_safe_kelvin() {
+    // AI-generated test for is_temperature_safe - Safe temperature in Kelvin
+    int result = is_temperature_safe(293.15, 2);
+    TEST_ASSERT_EQUAL(1, result);  // Should be safe (293.15K = 20°C)
+}
+
+void test_is_temperature_safe_unsafe_kelvin() {
+    // AI-generated test for is_temperature_safe - Unsafe temperature in Kelvin
+    int result = is_temperature_safe(278.15, 2);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe (278.15K = 5°C)
+}
+
+void test_is_temperature_safe_safe_rankine() {
+    // AI-generated test for is_temperature_safe - Safe temperature in Rankine
+    int result = is_temperature_safe(527.67, 3);
+    TEST_ASSERT_EQUAL(1, result);  // Should be safe (527.67°R = 20°C)
+}
+
+void test_is_temperature_safe_unsafe_rankine() {
+    // AI-generated test for is_temperature_safe - Unsafe temperature in Rankine
+    int result = is_temperature_safe(500.67, 3);
+    TEST_ASSERT_EQUAL(0, result);  // Should be unsafe (500.67°R = 5°C)
+}
+
 int main() {
     UNITY_BEGIN();
     RUN_TEST(test_get_sensor_reading);
@@ -803,5 +858,16 @@ int main() {
         RUN_TEST(test_get_temperature_warning_threshold_celsius_extreme_cold);
         RUN_TEST(test_get_temperature_warning_threshold_invalid_scale);
         RUN_TEST(test_get_temperature_warning_threshold_invalid_warning_type);
+    
+    RUN_TEST(test_is_temperature_safe_safe_celsius);
+    RUN_TEST(test_is_temperature_safe_unsafe_celsius);
+    RUN_TEST(test_is_temperature_safe_safe_fahrenheit);
+    RUN_TEST(test_is_temperature_safe_unsafe_fahrenheit);
+    RUN_TEST(test_is_temperature_safe_safe_kelvin);
+    RUN_TEST(test_is_temperature_safe_unsafe_kelvin);
+    RUN_TEST(test_is_temperature_safe_safe_rankine);
+    RUN_TEST(test_is_temperature_safe_unsafe_rankine);
+    RUN_TEST(test_is_temperature_safe_invalid_scale);
+
     return UNITY_END();
 }
