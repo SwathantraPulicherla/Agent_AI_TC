@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "sensor.h"
+#include <stdbool.h>
 
 int get_sensor_reading() {
     // Simulate sensor reading
@@ -82,3 +83,11 @@ int get_sensor_uptime() {
     return 168; // Mock 1 week uptime
 }
 
+bool detect_rapid_temperature_change(int previous_temp, int current_temp, int threshold) {
+    // Detects if the temperature has changed by more than the specified threshold.
+    // Returns 'true' if a rapid change is detected, otherwise 'false'.
+    if (abs(current_temp - previous_temp) > threshold) {
+        return true;
+    }
+    return false;
+}
