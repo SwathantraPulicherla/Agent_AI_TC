@@ -746,30 +746,6 @@ void test_is_temperature_safe_unsafe_rankine() {
 }
 
 
-void test_setUp() {
-    // AI-generated test for setUp
-    // Test with sample inputs
-    // Note: This is a basic test - you may need to customize based on function behavior
-    TEST_ASSERT_TRUE(true);  // Basic test - function exists and doesn't crash
-}
-
-
-void test_stub_get_sensor_reading() {
-    // AI-generated test for stub_get_sensor_reading
-    // Test with sample inputs
-    // Note: This is a basic test - you may need to customize based on function behavior
-    TEST_ASSERT_TRUE(true);  // Basic test - function exists and doesn't crash
-}
-
-
-void test_tearDown() {
-    // AI-generated test for tearDown
-    // Test with sample inputs
-    // Note: This is a basic test - you may need to customize based on function behavior
-    TEST_ASSERT_TRUE(true);  // Basic test - function exists and doesn't crash
-}
-
-
 void test_detect_rapid_temperature_change() {
     // AI-generated test for detect_rapid_temperature_change
     // Test with sample inputs
