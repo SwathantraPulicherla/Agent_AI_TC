@@ -47,7 +47,7 @@ jobs:
       run: |
         if [ -f functions.json ]; then
           echo "Generating AI tests for new functions..."
-          python3 scripts/generate_ai_tests.py functions.json ai_generated_tests.c
+          python3 scripts/generate_ai_tests.py functions.json ai_generated_tests.c test_temperature.c
         else
           echo "No functions.json found"
         fi
@@ -62,7 +62,7 @@ jobs:
         fi
         if [ -f run_tests.txt ]; then
           # Insert RUN_TEST before return UNITY_END();
-          sed -i '/return UNITY_END();/i $(cat run_tests.txt)' test_temperature.c
+          sed -i '/return UNITY_END();/r run_tests.txt' test_temperature.c
         fi
 
     - name: Commit generated tests

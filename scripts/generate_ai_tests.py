@@ -66,12 +66,17 @@ void test_{func_name}() {{
 '''
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python3 generate_ai_tests.py functions.json output.c")
+    if len(sys.argv) != 4:
+        print("Usage: python3 generate_ai_tests.py functions.json output.c test_file.c")
         sys.exit(1)
 
     functions_file = sys.argv[1]
     output_file = sys.argv[2]
+    test_file = sys.argv[3]
+
+    # Read existing test file to check for duplicates
+    with open(test_file, 'r') as f:
+        existing_content = f.read()
 
     with open(functions_file, 'r') as f:
         functions = json.load(f)
@@ -82,13 +87,20 @@ def main():
             func_name = func_data['name']
             signature = func_data['signature']
             logic = func_data['logic']
+            
+            # Check if test already exists
+            if f'test_{func_name}' in existing_content:
+                print(f"Test for {func_name} already exists, skipping")
+                continue
+            
             test_code = generate_test_with_ai(func_name, signature, logic)
             f.write(test_code + '\n')
             # Extract test function names from test_code
             import re
             test_funcs = re.findall(r'void (test_\w+)\(', test_code)
             for test_func in test_funcs:
-                run_tests.append(f'    RUN_TEST({test_func});')
+                if test_func not in existing_content:
+                    run_tests.append(f'    RUN_TEST({test_func});')
 
     with open('run_tests.txt', 'w') as f:
         f.write('\n'.join(run_tests) + '\n')
