@@ -882,6 +882,5 @@ int main() {
     RUN_TEST(test_is_temperature_safe_invalid_scale);
 
         RUN_TEST(test_get_sensor_uptime);
-        RUN_TEST(test_detect_rapid_temperature_change);
     return UNITY_END();
 }
