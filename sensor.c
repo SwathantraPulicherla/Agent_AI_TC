@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "sensor.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 int get_sensor_reading() {
     // Simulate sensor reading

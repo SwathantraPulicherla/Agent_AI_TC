@@ -16,6 +16,10 @@ void test_get_sensor_reading() {
     TEST_ASSERT_EQUAL(25, get_sensor_reading());
 }
 
+void test_get_sensor_uptime() {
+    TEST_ASSERT_EQUAL(168, get_sensor_uptime());
+}
+
 // Test for converter normal case
 void test_convert_to_fahrenheit_normal() {
     sensor_func = stub_get_sensor_reading;
@@ -742,14 +746,6 @@ void test_is_temperature_safe_unsafe_rankine() {
 }
 
 
-void test_main() {
-    // AI-generated test for main
-    // Test with sample inputs
-    // Note: This is a basic test - you may need to customize based on function behavior
-    TEST_ASSERT_TRUE(true);  // Basic test - function exists and doesn't crash
-}
-
-
 void test_setUp() {
     // AI-generated test for setUp
     // Test with sample inputs
@@ -909,10 +905,6 @@ int main() {
     RUN_TEST(test_is_temperature_safe_unsafe_rankine);
     RUN_TEST(test_is_temperature_safe_invalid_scale);
 
-        RUN_TEST(test_main);
-        RUN_TEST(test_setUp);
-        RUN_TEST(test_stub_get_sensor_reading);
-        RUN_TEST(test_tearDown);
         RUN_TEST(test_get_sensor_uptime);
         RUN_TEST(test_detect_rapid_temperature_change);
     return UNITY_END();
