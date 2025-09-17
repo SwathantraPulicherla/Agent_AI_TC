@@ -35,3 +35,4 @@ format_temperature
 compare_temperatures
 get_average_temperature
 get_temperature_variance
+get_sensor_uptime

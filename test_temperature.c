@@ -1621,6 +1621,13 @@ void test_test_validate_temperature_valid() {
     TEST_ASSERT_TRUE(true);  // Basic test - function exists and doesn't crash
 }
 
+
+void test_get_sensor_uptime() {
+    // AI-generated test for get_sensor_uptime
+    int result = get_sensor_uptime();
+    TEST_ASSERT_EQUAL(168, result);  // Expected uptime in hours
+}
+
 int main() {
     UNITY_BEGIN();
     RUN_TEST(test_get_sensor_reading);
@@ -1859,5 +1866,6 @@ int main() {
         RUN_TEST(test_test_validate_temperature_invalid_high);
         RUN_TEST(test_test_validate_temperature_invalid_low);
         RUN_TEST(test_test_validate_temperature_valid);
+        RUN_TEST(test_get_sensor_uptime);
     return UNITY_END();
 }
