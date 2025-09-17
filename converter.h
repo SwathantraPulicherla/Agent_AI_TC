@@ -27,5 +27,6 @@ char* format_temperature(float temp, int scale, int precision);
 int compare_temperatures(float temp1, float temp2);
 float get_average_temperature(float temps[], int count);
 float get_temperature_variance(float temps[], int count, float mean);
+int is_temperature_safe(float temp, int scale);
 
 #endif

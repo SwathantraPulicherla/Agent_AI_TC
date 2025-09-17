@@ -233,3 +233,19 @@ float get_temperature_variance(float temps[], int count, float mean) {
     }
     return sum_squared_diff / (count - 1);
 }
+
+int is_temperature_safe(float temp, int scale) {
+    // Check if temperature is within safe range for human comfort (10°C to 30°C equivalent)
+    float celsius_temp;
+    
+    // Convert to Celsius for safety check
+    switch (scale) {
+        case 0: celsius_temp = temp; break;
+        case 1: celsius_temp = fahrenheit_to_celsius(temp); break;
+        case 2: celsius_temp = kelvin_to_celsius(temp); break;
+        case 3: celsius_temp = rankine_to_celsius(temp); break;
+        default: return 0; // Invalid scale, assume unsafe
+    }
+    
+    return (celsius_temp >= 10.0 && celsius_temp <= 30.0) ? 1 : 0;
+}
